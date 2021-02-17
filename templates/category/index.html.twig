@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Catégories | Index {% endblock %}
+
+{% block body %}
+<div class="container">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <h1>Catégories</h1>
+
+    <a class="btn btn-primary" href="{{ path('category.add') }}">Ajouter une catégorie</a>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Nom</th>
+            <th colspan="2">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+        <tr>
+            <td>{{ category.id }}</td>
+            <td>{{ category.name }}</td>
+            <td>
+                <a class="btn btn-primary" href="{{ path('category.edit', {id:category.id}) }}">Editer</a>
+
+                <form method="post" action="{{ path('category.delete', {id:category.id}) }}" style="display: inline-block"
+                      onsubmit="confirm('Etes vous ? Cette action est irréversible')">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete'~category.id) }}">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

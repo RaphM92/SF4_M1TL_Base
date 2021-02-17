@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <h1>Salles ayant la catégorie : {{ category.name }}</h1>
+
+    <ul>
+        {% for room in rooms %}
+            <li>#{{ room.id }} | {{ room.name }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+
+
+

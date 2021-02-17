@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Room{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <h1>Edit Room</h1>
+
+    {{ include('room/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a class="btn btn-primary" href="{{ path('room_index') }}">back to list</a>
+
+    {{ include('room/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

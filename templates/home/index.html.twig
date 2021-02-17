@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+
+    {% for message in app.flashes('success')%}
+        <div class="alert alert-success alert-dismissible">
+            {{ message }}
+        </div>
+    {% endfor %}
+<div class="container">
+    <h1>Test</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Capacity</th>
+            <th scope="col">Category</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for room in rooms %}
+        <tr>
+            <th>{{ room.id }}</th>
+            <td>{{ room.name }}</td>
+            <td>{{ room.capacity }}</td>
+            <td>{{ room.category.name }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div><ul>
+            <li>Faire en sorte que seuls les utilisateurs avec le rôle admin puissent avoir accès aux formulaires de création de catégories et de salles.</li>
+            <li>Rajouter l’ID de l’utilisateur qui a créé une room ( Attention, l’idée sera de pouvoir voir les rooms créés en fonction de l’utilisateur. Relation ? )</li>
+            <li>Aggrémenter chaque room avec de nouvelles informations de votre choix qui vous semblent pertinentes ( Ex: Ville, etc ).</li>
+            <li>Modifier le contenu du template des Rooms pour améliorer son affichage et rajouter les éléments.</li>
+            <li>Créer une requête qui permettra d’afficher les salles selon une ville donnée via une valeur défini dans la route.</p></div></li>
+        </ul>
+
+
+
+
+
+
+</div>
+{% endblock %}
+
