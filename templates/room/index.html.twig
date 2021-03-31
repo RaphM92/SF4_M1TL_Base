@@ -3,7 +3,9 @@
 {% block title %}Room index{% endblock %}
 
 {% block body %}
+    <div class="container">
     <h1>Room index</h1>
+        <a class="btn btn-primary" href="{{ path('room_new') }}">Créer une nouvelle salle</a>
 
     <table class="table">
         <thead>
@@ -11,7 +13,10 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Capacity</th>
-                <th>actions</th>
+                <th>Category</th>
+                <th>City</th>
+                <th>Wifi</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -20,9 +25,12 @@
                 <td>{{ room.id }}</td>
                 <td>{{ room.name }}</td>
                 <td>{{ room.capacity }}</td>
+                <td>{{ room.category }}</td>
+                <td>{{ room.city }}</td>
+                <td>{% if room.hasWifi == true %}Wifi disponible{% else %} Pas de wifi {% endif %}</td>
                 <td>
-                    <a href="{{ path('room_show', {'id': room.id}) }}">show</a>
-                    <a href="{{ path('room_edit', {'id': room.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('room_show', {'id': room.id}) }}">Voir</a>
+                    <a class="btn btn-success" href="{{ path('room_edit', {'id': room.id}) }}">Editer</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +41,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('room_new') }}">Create new</a>
+
+    </div>
 {% endblock %}

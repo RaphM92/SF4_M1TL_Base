@@ -5,17 +5,28 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Room;
 use App\Form\RoomType;
+use App\Manager\EmailManager;
 use App\Repository\RoomRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/room")
  */
 class RoomController extends AbstractController
 {
+
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     /**
      * @Route("/", name="room_index", methods={"GET"})
      */
@@ -27,7 +38,7 @@ class RoomController extends AbstractController
     }
 
     /**
-     * @Route("/category/{id}/showRooms", name="category.showRooms")
+     * @Route("/category/{id}/showRooms", name="room.showByCategory")
      */
     public function showRoomsByCategory(RoomRepository $roomRepository, Category $category)
     {
@@ -40,11 +51,26 @@ class RoomController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="room_new", methods={"GET","POST"})
+     * @Route("/search/{city}", name="room.showCity")
      */
-    public function new(Request $request): Response
+    public function showRoomsByCity(RoomRepository $roomRepository, $city)
+    {
+        $rooms = $roomRepository->findByCity($city);
+
+        return $this->render('room/showCity.html.twig',[
+            'city'=>$city,
+            'rooms'=>$rooms
+        ]);
+    }
+
+    /**
+     * @Route("/new", name="room_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function new(Request $request, EmailManager $mailer): Response
     {
         $room = new Room();
+        $room->setUser($this->security->getUser());
         $form = $this->createForm(RoomType::class, $room);
         $form->handleRequest($request);
 
@@ -52,6 +78,7 @@ class RoomController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($room);
             $entityManager->flush();
+            $mailer->sendMailAdmin($room);
 
             return $this->redirectToRoute('room_index');
         }
@@ -64,6 +91,7 @@ class RoomController extends AbstractController
 
     /**
      * @Route("/{id}", name="room_show", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function show(Room $room): Response
     {
@@ -74,6 +102,7 @@ class RoomController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="room_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Room $room): Response
     {
@@ -81,6 +110,7 @@ class RoomController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $room->setUpdatedAt(new \DateTime());
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('room_index');
@@ -94,6 +124,7 @@ class RoomController extends AbstractController
 
     /**
      * @Route("/{id}", name="room_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Room $room): Response
     {

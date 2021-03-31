@@ -25,7 +25,7 @@
                             <a class="nav-link active" aria-current="page" href="{{ path('home') }}">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Voir les salles</a>
+                            <a class="nav-link" href="{{ path('room_index') }}">Voir les salles</a>
                         </li>
                         {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.id is defined %}
                         <li class="nav-item">

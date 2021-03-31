@@ -1,4 +1,21 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+<div class="row">
+    <div class="col-md-6">{{ form_row(form.name) }}</div>
+    <div class="col-md-6">{{ form_row(form.description) }}</div>
+</div>
+<div class="row">
+    <div class="col-md-4">{{ form_row(form.capacity) }}</div>
+    <div class="col-md-4">{{ form_row(form.category) }}</div>
+    <div class="col-md-4">{{ form_row(form.city) }}</div>
+</div>
+<div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.imageFile)}}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.hasWifi) }}
+        </div>
+</div>
+
+    <button class="btn btn-primary">{{ button_label|default('Valider') }}</button>
 {{ form_end(form) }}

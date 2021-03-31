@@ -3,9 +3,11 @@
 {% block title %}New Room{% endblock %}
 
 {% block body %}
-    <h1>Create new Room</h1>
+    <div class="container">
+        <h1>Create new Room</h1>
+        <a class="btn btn-primary" href="{{ path('room_index') }}">Retour</a>
 
-    {{ include('room/_form.html.twig') }}
+        {{ include('room/_form.html.twig') }}
+    </div>
 
-    <a href="{{ path('room_index') }}">back to list</a>
 {% endblock %}

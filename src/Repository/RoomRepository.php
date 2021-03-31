@@ -57,6 +57,7 @@ class RoomRepository extends ServiceEntityRepository
          ->getResult();
 
     }
+
     public function getSearchQuery(Category $category)
     {
         $query = $this->createQueryBuilder('r')
@@ -65,4 +66,15 @@ class RoomRepository extends ServiceEntityRepository
 
         return $query;
     }
+
+    public function findByCity($city)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.city LIKE :city')
+            ->setParameter('city','%'.$city.'%')
+            ->orderBy('r.city','DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 }

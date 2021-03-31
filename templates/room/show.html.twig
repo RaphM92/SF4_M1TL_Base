@@ -3,28 +3,52 @@
 {% block title %}Room{% endblock %}
 
 {% block body %}
-    <h1>Room</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <figure>
+                    <img src="http://placehold.it/300x250" alt="Fake">
+                </figure>
+            </div>
+            <div class="col-md-8">
+                <h1>Room</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ room.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ room.name }}</td>
-            </tr>
-            <tr>
-                <th>Capacity</th>
-                <td>{{ room.capacity }}</td>
-            </tr>
-        </tbody>
-    </table>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ room.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ room.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Capacity</th>
+                        <td>{{ room.capacity }}</td>
+                    </tr>
+                    <tr>
+                        <th>Category</th>
+                        <td>{{ room.category }}</td>
+                    </tr>
+                    <tr>
+                        <th>City</th>
+                        <td>{{ room.city }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ room.description }}</td>
+                    </tr>
+                    </tbody>
+                </table>
 
-    <a href="{{ path('room_index') }}">back to list</a>
+                <a href="{{ path('room_index') }}">back to list</a>
 
-    <a class="btn btn-primary" href="{{ path('room_edit', {'id': room.id}) }}">edit</a>
+                <a class="btn btn-primary" href="{{ path('room_edit', {'id': room.id}) }}">edit</a>
 
-    {{ include('room/_delete_form.html.twig') }}
+                {{ include('room/_delete_form.html.twig') }}
+            </div>
+        </div>
+
+    </div>
 {% endblock %}

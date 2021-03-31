@@ -6,8 +6,10 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\Manager\EmailManager;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -48,9 +50,10 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/add", name="category.add", methods={"GET", "POST"}))
+     * @Route("/new", name="category.add", methods={"GET", "POST"}))
+     * @IsGranted("ROLE_ADMIN")
      */
-    public function add(Request $request)
+    public function new(Request $request, EmailManager $mailer)
     {
         $category = new Category();
 
@@ -60,6 +63,7 @@ class CategoryController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $this->em->persist($category);
             $this->em->flush();
+            /*$mailer->sendMailAdmin();*/
             $this->addFlash('success','La catégorie à bien été créée !');
             return $this->redirectToRoute('category.index');
         }
@@ -71,6 +75,7 @@ class CategoryController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="category.edit", methods={"GET|POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Category $category, Request $request){
 
@@ -90,6 +95,7 @@ class CategoryController extends AbstractController
 
     /**
      * @Route("/{id}", name="category.delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Category $category, Request $request){
 
